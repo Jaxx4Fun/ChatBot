@@ -2,6 +2,7 @@ import pyaudio
 from pyaudio import paInt16
 import wave
 import numpy as np
+import time
 # from matplotlib import pyplot as plt
 # use pyaudio
 RATE = 44100
@@ -17,6 +18,7 @@ stream = pa.open(rate=RATE,
                 frames_per_buffer=FRAMES_PER_BUFFER,
                 input=True)
 buffer = []
+start = time.time()
 for i in range(RATE*TIME//CHUNK):
     print('CHUNK %s :\n'.ljust(15,'-')% i)
     try:
@@ -31,9 +33,9 @@ for i in range(RATE*TIME//CHUNK):
 
     buffer.append(np.fromstring(data,dtype=np.short))
 buff =np.array(buffer).reshape((-1,))
-with open('./audio_bin.txt','xb') as f:
+with open('./audio_bin.txt','wb') as f:
     f.write(buff)
-
+print('cost time :',time.time()-start)
 # plt.plot(buff)
 # plt.show()
 # # use arecord
