@@ -31,7 +31,8 @@ for i in range(RATE*TIME//CHUNK):
 
     buffer.append(np.fromstring(data,dtype=np.short))
 buff =np.array(buffer).reshape((-1,))
-
+with open('./audio_bin.txt','xb') as f:
+    f.write(buff)
 
 # plt.plot(buff)
 # plt.show()
