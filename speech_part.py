@@ -1,4 +1,9 @@
 import aip
+
+class RecognizeError(BaseException):
+    pass
+class ComposeError(BaseException):
+    pass
 class SpeechClient(object):
     _CLIENT = aip.AipSpeech(
                 appId = '10528707',
@@ -26,14 +31,14 @@ class SpeechClient(object):
         if result and result.get('err_no') == 0:
             return result.get('result')
         else:
-            raise Exception(result)
+            raise RecognizeError(result)
 
     def speech_compose(self,response='测试数据：你好猪头肉'):
         result = self._CLIENT.synthesis(text=response,options=self._DEFAULT_AUDIO_OPTION)
         if isinstance(result,bytes):
             return result
         elif isinstance(result,dict):
-            raise Exception(result)
+            raise ComposeError(result['err_msg'])
 
 def convert_mp3_to_pcm(original_path,new_path):
     import os
@@ -55,7 +60,7 @@ def main():
     buff = sc.speech_compose()
     save_mp3(buff,mp3_path)
     convert_mp3_to_pcm(mp3_path,pcm_path)
-    buff = read_pcm(pcm_path)
+    buff = read_pcm('./audio16.pcm')
 
     print('Test Done',sc.speech_recognize(buff,audio_type='pcm'))
 if __name__ == '__main__':

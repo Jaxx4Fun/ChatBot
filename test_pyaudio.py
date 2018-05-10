@@ -3,40 +3,66 @@ import wave
 import os
 import sys
 from aip import AipSpeech
-class ChatBot:
-    def __init__(self, *args, **kwargs):
-        self.CLIENT =AipSpeech(
-            appId = '10528707',
-            apiKey = 'iBCuQlT14vkiPzr2qzEYpu6s',
-            secretKey = '7znifePL2YhGeKgqSsw2Q33sXqsIG6x2'
-        )
-        self.AUDIO_DIR = './audio.wav'
-        self.RESPONSE_DIR = './rsp.mp3'
-    def run(self):
-        audio_data = self.record_audio()
+import dialogue
+import speech_part
 
-        text = self.recognize_audio(audio_data)
+USE_PYAUDIO = False
+class ChatBot:
+
+    _AUDIO_DIR = './audio.wav'
+    _RESPONSE_DIR = './rsp.mp3'
+    def __init__(self, *args, **kwargs):
+        self.CLIENT =speech_part.SpeechClient()
+    def run(self):
+        while True:
+            # 录音
+            print('start record')
+            self.record_audio()
+            print('stop record')
+            # 读取
+            audio_buffer = self.read_audio()
+            # 识别
+            try:
+                msg = self.recognize_audio(audio_buffer)
+            except speech_part.RecognizeError as e:
+                response = str(e)
+            else:
+                # 获取回复
+                response = dialogue.generate_response(msg)
+            # 语音合成
+            try:
+                self.compose_audio(text=response)
+            except speech_part.ComposeError as e:
+                print(e)
+            else:
+                self.play_audio()
+
+
+
         # 输入 - 输出
         # response = self.DIALOGUE.get_response(text)
 
-    def record_audio(self,time=5):
-        os.system ('arecord -D "plughw:1,0" -d 10 {dir}'.format(dir=self.AUDIO_DIR))
-        with open(self.AUDIO_DIR) as audio:
+    def record_audio(self,time=5,path = _AUDIO_DIR):
+        os.system ('arecord -r 44100 -f s16_le -c 1 -D "plughw:1,0" -d {time} {path}.orgin'.format(path=path,time=time))
+        # 录音格式转换
+        os.system('ffmpeg -y -f s16le -ac 1 -ar 44100 -i {src_path} -acodec pcm_s16le -f s16le -ac 1 -ar 16000 {dst_path}'.format(src_path=(path+'.origin'),dst_path=path))
+
+    def read_audio(self,path =_AUDIO_DIR):
+        with open(path) as audio:
             buffer = audio.read()
             return buffer
+
     def recognize_audio(self,buffer):
-        self.CLIENT.asr(speech=buffer,format='wav',rate=16000)
+        self.CLIENT.speech_recognize(speech=buffer,audio_type='pcm')
 
-
-    def compose_audio(self,text_data='我是一头猪呀'):
-        result = self.CLIENT.synthesis(text_data)
+    def compose_audio(self,text='我是一头猪呀'):
+        result = self.CLIENT.speech_compose(text)
         if not isinstance(result,dict):
-            with open(self.RESPONSE_DIR, 'wb') as f:
+            with open(self._RESPONSE_DIR, 'wb') as f:
                 f.write(result)
 
-    def play_audio(self):
-        if os.path.exists(self.RESPONSE_DIR):
-            os.system('aplay %s'%self.RESPONSE_DIR)
+    def play_audio(self,path=_RESPONSE_DIR):
+        os.system('mpg123 {path}')
 
 
     def record_audio_by_pa(self):
@@ -81,6 +107,7 @@ class ChatBot:
 if __name__ == '__main__':
     cb = ChatBot()
     # test compose
+
     cb.run()
 
 
