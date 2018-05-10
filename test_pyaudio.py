@@ -9,7 +9,7 @@ import speech_part
 USE_PYAUDIO = False
 class ChatBot:
 
-    _AUDIO_DIR = './audio.wav'
+    _AUDIO_DIR = './audio.pcm'
     _RESPONSE_DIR = './rsp.mp3'
     def __init__(self, *args, **kwargs):
         self.CLIENT =speech_part.SpeechClient()
@@ -31,10 +31,11 @@ class ChatBot:
                 response = dialogue.generate_response(msg)
             # 语音合成
             try:
-                self.compose_audio(text=response)
+                response_buff = self.compose_audio(text=response)
             except speech_part.ComposeError as e:
                 print(e)
             else:
+                speech_part.save_mp3(response_buff,self._RESPONSE_DIR)
                 self.play_audio()
 
 
@@ -43,12 +44,12 @@ class ChatBot:
         # response = self.DIALOGUE.get_response(text)
 
     def record_audio(self,time=5,path = _AUDIO_DIR):
-        os.system ('arecord -r 44100 -f s16_le -c 1 -D "plughw:1,0" -d {time} {path}.orgin'.format(path=path,time=time))
+        os.system ('arecord -r 44100 -f s16_le -c 1 -D -t raw "plughw:1,0" -d {time} {path}'.format(path=(path+'.origin'),time=time))
         # 录音格式转换
         os.system('ffmpeg -y -f s16le -ac 1 -ar 44100 -i {src_path} -acodec pcm_s16le -f s16le -ac 1 -ar 16000 {dst_path}'.format(src_path=(path+'.origin'),dst_path=path))
 
     def read_audio(self,path =_AUDIO_DIR):
-        with open(path) as audio:
+        with open(path,'rb') as audio:
             buffer = audio.read()
             return buffer
 
