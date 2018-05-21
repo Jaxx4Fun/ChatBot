@@ -13,7 +13,7 @@
 
             <learn>celebrity.aiml</learn>
             <learn>base0.aiml</learn>
-            <learn>C:/Users/DELL/Desktop/毕设2/ChatBot/aiml_data/greeting.aiml</learn>
+            <learn>greeting.aiml</learn>
             <learn>gossip.aiml</learn>
             <!-- <learn>base.aiml</learn>
             <learn>C:/Users/DELL/Desktop/毕设2/ChatBot/aiml_data/base.aiml</learn>
