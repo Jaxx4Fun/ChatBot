@@ -5,7 +5,23 @@ import sys
 import speech_part
 import logging
 import new_dialogue
-USE_PYAUDIO = False
+#初始化logger
+logger = logging.getLogger(__name__)
+# 配置日志级别，如果不显示配置，默认为Warning，表示所有warning级别已下的其他level直接被省略，
+# 内部绑定的handler对象也只能接收到warning级别以上的level，你可以理解为总开关
+logger.setLevel(logging.INFO)
+
+formatter = logging.Formatter(fmt="%(asctime)s %(filename)s[line:%(lineno)d]%(levelname)s - %(message)s",
+                                datefmt="%m/%d/%Y %I:%M:%S %p")  # 创建一个格式化对象
+info_file = logging.FileHandler('./log/chatbot/info.log')
+debug_file = logging.FileHandler('./log/chatbot/debug.log')
+debug_file.setLevel(logging.DEBUG)
+console = logging.StreamHandler() # 配置日志输出到控制台
+console.setLevel(logging.INFO) # 设置输出到控制台的最低日志级别
+console.setFormatter(formatter)  # 设置格式
+logger.addHandler(console)
+logger.addHandler(info_file)
+logger.addHandler(debug_file)
 class ChatBot:
     # 预先的定义好音频参数和录音时间
     _AUDIO_DIR = './audio.pcm'
@@ -18,31 +34,35 @@ class ChatBot:
     _DEFAULT_RECORD_TIME = 5
 
     def __init__(self, *args, **kwargs):
-            self.CLIENT =speech_part.SpeechClient()
-            self.BRAIN = new_dialogue.Dialogue()
+        logger.info('ChatBot初始化')
+        self.CLIENT =speech_part.SpeechClient()
+        self.BRAIN = new_dialogue.Dialogue()
+
     def run(self):
         while True:
             # 录音
-            print('开始录音')
+            logger.info('开始录音')
             #TODO 这里要加个嘟？
             audio_buffer = self.record_audio()
-            print('录音结束')
+            logger.info('录音结束')
             # 读取
             # audio_buffer = open('./audio16.pcm','rb').read()
             # 识别
             try:
                 msg = self.recognize_audio(audio_buffer)
-                print(msg)
+                logger.info(msg)
             except speech_part.RecognizeError as e:
+                logger.error('recognize error',exc_info=True)
                 response = str(e)
             else:
                 # 获取回复
                 response = self.BRAIN.respond(msg)
+                logger.info(response)
             # 语音合成
             try:
                 response_buff = self.compose_audio(text=response)
             except speech_part.ComposeError as e:
-                print(e)
+                logger.error('compose error',exc_info=True)
             else:
                 speech_part.save_mp3(response_buff,self._RESPONSE_DIR)
                 self.play_audio()
@@ -107,7 +127,7 @@ class ChatBot:
                         input=True,
                         frames_per_buffer=CHUNK)
 
-        print("recording...")
+        logger.info("使用pyaudio开始录音")
 
         frames = []
 
@@ -115,7 +135,7 @@ class ChatBot:
             data = stream.read(CHUNK)
             frames.append(data)
 
-        print("done")
+        logger.info("录音结束")
 
         stream.stop_stream()
         stream.close()
