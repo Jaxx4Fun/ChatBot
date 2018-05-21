@@ -7,7 +7,11 @@ import os
 from weather import WeatherHandler
 class Dialogue(object):
     def __init__(self, aiml_data_dir = './aiml_data'):
-        locale.setlocale(locale.LC_CTYPE,'chinese')
+        try:
+            datetime.now().strftime('%Y年%m月%d日')
+        except UnicodeEncodeError:
+            locale.setlocale(locale.LC_CTYPE,'chinese')
+
         self._brain = aiml.Kernel()
         pwd = os.curdir
         os.chdir(os.path.join(pwd,aiml_data_dir))
