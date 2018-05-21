@@ -32,6 +32,7 @@ class ChatBot:
             # 识别
             try:
                 msg = self.recognize_audio(audio_buffer)
+                print(msg)
             except speech_part.RecognizeError as e:
                 response = str(e)
             else:
