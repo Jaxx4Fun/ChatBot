@@ -1,0 +1,100 @@
+
+<aiml version = "1.0.1" encoding = "UTF-8">
+
+
+
+    <category>
+        <pattern>新年快乐</pattern>
+        <template>恭喜发财</template>
+    </category>
+    <category>
+        <pattern>你叫*</pattern>
+        <template>我叫<get name="botname"></get></template>
+    </category>
+
+    <category>
+        <pattern>你是谁</pattern>
+        <template><srai>你叫什么名字</srai></template>
+    </category>
+
+
+    <category>
+        <pattern>再见</pattern>
+        <template>网络一线牵，相逢即是缘，再见</template>
+    </category>
+    <category>
+        <pattern>再见*</pattern>
+        <template>
+            <srai>再见</srai>
+        </template>
+    </category>
+    <category>
+        <pattern>*再见</pattern>
+        <template>
+            <srai>再见</srai>
+        </template>
+    </category>
+
+
+
+    <category>
+        <pattern>你好</pattern>
+        <template>
+                <condition name="username" >
+                <li value="">请问你是哪位</li>
+                <li>你好<get name='username'></get></li>
+                </condition>
+        </template>
+    </category>
+    <category>
+        <pattern>*你好</pattern>
+        <template>
+            <srai>你好
+            </srai>
+        </template>再见
+    </category>
+
+    <category>
+        <pattern>我叫*</pattern>
+        <template>
+        <condition name="username">
+            <li value=""><set name='username'><star/></set>初次见面请多指教</li>
+        </condition>
+        <think>
+        </think>
+        </template>
+    </category>
+
+    <category>
+    <pattern>夸奖*</pattern>
+    <template>
+    原来我很<star/>过奖过奖
+    </template>
+    </category>
+
+    <category>
+        <pattern>你好*</pattern>
+        <template>
+        <think><set name="star"><star index="1"/></set></think>
+        <condition name="star">
+            <li value="啊"><srai>你好</srai></li>
+            <li value="呀"><srai>你好</srai></li>
+            <li value="萌"><srai>调戏</srai></li>
+            <li value="萌啊"><srai>调戏<star/></srai></li>
+            <li value="聪明"><srai>夸奖<star/></srai></li>
+            <li value="善良"><srai>夸奖<star/></srai></li>
+            <li value="历害"><srai>夸奖<star/></srai></li>
+            <li value="文艺"><srai>夸奖<star/></srai></li>
+            <li value="牛逼"><srai>夸奖<star/></srai></li>
+            <li value="强"><srai>夸奖<star/></srai></li>
+            <li value="聪明啊"><srai>夸奖<star/></srai></li>
+            <li value="善良啊"><srai>夸奖<star/></srai></li>
+            <li value="历害啊"><srai>夸奖<star/></srai></li>
+            <li value="文艺啊"><srai>夸奖<star/></srai></li>
+            <li value="牛逼啊"><srai>夸奖<star/></srai></li>
+            <li value="强啊"><srai>夸奖<star/></srai></li>
+            <li> 你才<get name="star" />！你们全家都<get name="star" />!</li>
+        </condition>
+        </template>
+    </category>
+</aiml>

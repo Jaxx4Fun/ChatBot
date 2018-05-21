@@ -1,0 +1,46 @@
+<aiml version="1.0.1" encoding="UTF-8">
+<!-- 储存句型 -->
+    <category>
+        <pattern>谁是*</pattern>
+        <template><srai>谁是<star/></srai></template>
+    </category>
+    <category>
+        <pattern>*是谁</pattern>
+        <template><srai>谁是<star/></srai></template>
+    </category>
+
+    <!-- 杭州的天气 -->
+    <category>
+        <pattern>*的天气</pattern>
+        <template>实时查询 天气 <star/></template>
+    </category>
+    <category>
+        <pattern>*的天气*</pattern>
+        <template><srai><star index='1'/>的天气</srai></template>
+    </category>
+
+    <category>
+        <pattern>日期</pattern>
+        <template>实时查询 日期</template>
+    </category>
+    <category>
+        <pattern>*几月几*</pattern>
+        <template><srai>日期</srai></template>
+    </category>
+
+    <category>
+        <pattern>时间</pattern>
+        <template>实时查询 时间</template>
+    </category>
+    <category>
+        <pattern>*几点*</pattern>
+        <template><srai>时间</srai></template>
+    </category>
+    <category>
+        <pattern>*几点</pattern>
+        <template><srai>时间</srai></template>
+    </category>
+
+
+
+</aiml>
