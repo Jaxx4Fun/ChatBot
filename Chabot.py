@@ -100,7 +100,7 @@ class ChatBot:
             return buffer
 
     def recognize_audio(self,buffer):
-        self.CLIENT.speech_recognize(speech=buffer,audio_type='pcm')
+        return self.CLIENT.speech_recognize(speech=buffer,audio_type='pcm')
 
     def compose_audio(self,text='我是一头猪呀'):
         result = self.CLIENT.speech_compose(text)
