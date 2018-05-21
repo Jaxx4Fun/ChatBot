@@ -29,7 +29,7 @@ class SpeechClient(object):
                                 format=audio_type,
                                 rate=rate)
         if result and result.get('err_no') == 0:
-            return result.get('result')
+            return result.get('result',"")
         else:
             raise RecognizeError(result['err_msg'])
 
