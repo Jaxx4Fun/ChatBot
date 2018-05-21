@@ -50,14 +50,14 @@ class ChatBot:
             # 识别
             try:
                 msg = self.recognize_audio(audio_buffer)
-                logger.info(msg)
+                logger.info('Recognize Result:'+msg)
             except speech_part.RecognizeError as e:
-                logger.error('recognize error',exc_info=True)
+                logger.error('Recognize Error',exc_info=True)
                 response = str(e)
             else:
                 # 获取回复
                 response = self.BRAIN.respond(msg)
-                logger.info(response)
+                logger.info('Dialogue Result:'+response)
             # 语音合成
             try:
                 response_buff = self.compose_audio(text=response)
