@@ -31,7 +31,7 @@ class SpeechClient(object):
         if result and result.get('err_no') == 0:
             return result.get('result')
         else:
-            raise RecognizeError(result)
+            raise RecognizeError(result['err_msg'])
 
     def speech_compose(self,response='测试数据：你好猪头肉'):
         result = self._CLIENT.synthesis(text=response,options=self._DEFAULT_AUDIO_OPTION)
