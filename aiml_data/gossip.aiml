@@ -1,10 +1,10 @@
 <aiml version="1.0.1" encoding="UTF-8">
 <!-- 闲聊数据 -->
     <category>
-    <pattern>夸奖*</pattern>
-    <template>
-    原来我很<star/>过奖过奖
-    </template>
+        <pattern>夸奖*</pattern>
+        <template>
+        原来我很<star/>过奖过奖
+        </template>
     </category>
     <category>
             <pattern>你好*</pattern>

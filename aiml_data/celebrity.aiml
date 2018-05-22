@@ -1,19 +1,5 @@
-
-<aiml version="1.0.1" encoding="UTF-8">
-    <category>
-        <pattern>谁是马云</pattern>
-        <template>马云，男，1964年9月10日生于浙江省杭州市，祖籍浙江省嵊州市（原嵊县）谷来镇， 阿里巴巴集团主要创始人，现担任阿里巴巴集团董事局主席、日本软银董事、大自然保护协会中国理事会主席兼全球董事会成员、华谊兄弟董事、生命科学突破奖基金会董事。
+<?xml version="1.0" encoding="utf-8"?><aiml encoding="UTF-8" version="1.0.1"><category><pattern>谁是*</pattern><template><think><set name="star"><star/></set></think><condition name="star"><li value="马云">马云，男，1964年9月10日生于浙江省杭州市，祖籍浙江省嵊州市（原嵊县）谷来镇， 阿里巴巴集团主要创始人，现担任阿里巴巴集团董事局主席、日本软银董事、大自然保护协会中国理事会主席兼全球董事会成员、华谊兄弟董事、生命科学突破奖基金会董事。
 [1] 
-
-                    </template>
-    </category>
-    <category>
-        <pattern>谁是李彦宏</pattern>
-        <template>李彦宏，百度公司创始人、董事长兼首席执行官，全面负责百度公司的战略规划和运营管理。
-                    </template>
-    </category>
-    <category>
-        <pattern>谁是马化腾</pattern>
-        <template>马化腾，男，1971年10月29日生于广东省汕头市潮南区。腾讯公司主要创办人之一。现任腾讯公司控股董事会主席兼首席执行官；全国青联副主席。</template>
-    </category>
-</aiml>
+</li><li value="李彦宏">李彦宏，百度公司创始人、董事长兼首席执行官，全面负责百度公司的战略规划和运营管理。</li><li value="马化腾">马化腾，男，1971年10月29日生于广东省汕头市潮南区。腾讯公司主要创办人之一。现任腾讯公司控股董事会主席兼首席执行官；全国青联副主席。
+[1] 
+</li><li>我跟<star/>不熟</li></condition></template></category></aiml>

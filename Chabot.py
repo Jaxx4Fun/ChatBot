@@ -26,7 +26,7 @@ logger.addHandler(debug_file)
 # 聊天记录的logger
 history_logger = logging.getLogger(__name__+'.history')
 history_logger.setLevel(logging.DEBUG)
-history_formatter = logging.Formatter(fmt="%(asctitome)s - %(message)s")
+history_formatter = logging.Formatter(fmt="%(asctime)s - %(message)s")
 history_handler = logging.FileHandler('./log/chatbot/history.log')
 history_handler.setFormatter(history_formatter)
 history_logger.addHandler(history_handler)
@@ -60,17 +60,20 @@ class ChatBot:
                 msg = self.recognize_audio(audio_buffer)
                 history_logger.info('User : '+msg)
             except speech_part.RecognizeError as e:
+                history_logger.info('User : '+'（未能识别）')
                 logger.error('Recognize Error',exc_info=True)
                 response = str(e)
             else:
                 # 获取回复
                 response = self.BRAIN.respond(msg)
-                history_logger.info('Bot : '+response)
-            # 语音合成
+            # 回复作为聊天记录
+            history_logger.info('Bot : '+response)
+
             try:
+                # 语音合成
                 response_buff = self.compose_audio(text=response)
             except speech_part.ComposeError as e:
-                logger.error('compose error',exc_info=True)
+                logger.error('Compose Error',exc_info=True)
             else:
                 speech_part.save_mp3(response_buff,self._RESPONSE_DIR)
                 self.play_audio()

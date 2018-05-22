@@ -29,9 +29,16 @@ class SpeechClient(object):
                                 format=audio_type,
                                 rate=rate)
         if result and result.get('err_no') == 0:
-            return result.get('result',"")[0]
+            msg = result.get('result',"")[0]
+            msg = msg.replace('，','')
+            msg = msg.replace('。','')
+            msg = msg.replace('！','')
+            msg = msg.replace('、','')
+            return msg
         else:
-            raise RecognizeError(result['err_msg'])
+            if result['err_msg'] == 'speech quality error.':
+                raise RecognizeError('我没听清楚，再说一次好吗')
+
 
     def speech_compose(self,response='测试数据：你好猪头肉'):
         result = self._CLIENT.synthesis(text=response,options=self._DEFAULT_AUDIO_OPTION)

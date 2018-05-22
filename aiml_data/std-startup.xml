@@ -11,18 +11,13 @@
         <!-- <learn>是一个aiml文件 -->
         <template>
 
-            <learn>celebrity.aiml</learn>
             <learn>base0.aiml</learn>
+            <learn>celebrity.aiml</learn>
             <learn>greeting.aiml</learn>
             <learn>gossip.aiml</learn>
-            <!-- <learn>base.aiml</learn>
-            <learn>C:/Users/DELL/Desktop/毕设2/ChatBot/aiml_data/base.aiml</learn>
-            <learn>C:/Users/DELL/Desktop/毕设2/ChatBot/aiml_data/rule0.aiml</learn>
-            <learn>C:/Users/DELL/Desktop/毕设2/ChatBot/aiml_data/rule1.aiml</learn>
-            <learn>C:/Users/DELL/Desktop/毕设2/ChatBot/aiml_data/misc.aiml</learn> -->
 
             <!-- 在这下面你能添加更多的aiml文件 -->
-            <!--<learn>more_aiml.aiml</learn>-->
+
             <!-- 设置机器人的属性 -->
             <think>
                 <set name='botname'>阿六</set>

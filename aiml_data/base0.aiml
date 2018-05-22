@@ -1,10 +1,6 @@
 <aiml version="1.0.1" encoding="UTF-8">
 <!-- 储存句型 -->
     <category>
-        <pattern>谁是*</pattern>
-        <template><srai>谁是<star/></srai></template>
-    </category>
-    <category>
         <pattern>*是谁</pattern>
         <template><srai>谁是<star/></srai></template>
     </category>
