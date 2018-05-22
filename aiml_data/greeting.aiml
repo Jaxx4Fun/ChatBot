@@ -65,12 +65,7 @@
         </template>
     </category>
 
-    <category>
-    <pattern>夸奖*</pattern>
-    <template>
-    原来我很<star/>过奖过奖
-    </template>
-    </category>
+
 
 
 </aiml>

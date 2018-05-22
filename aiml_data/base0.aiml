@@ -20,12 +20,12 @@
     </category>
 
     <category>
-        <pattern>日期</pattern>
-        <template>实时查询 日期</template>
+        <pattern>日期*</pattern>
+        <template>实时查询 日期 <star/></template>
     </category>
     <category>
-        <pattern>*几月几*</pattern>
-        <template><srai>日期</srai></template>
+        <pattern>*是几月几*</pattern>
+        <template><srai>日期<star/></srai></template>
     </category>
 
     <category>

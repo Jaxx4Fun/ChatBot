@@ -10,18 +10,26 @@ logger = logging.getLogger(__name__)
 # 配置日志级别，如果不显示配置，默认为Warning，表示所有warning级别已下的其他level直接被省略，
 # 内部绑定的handler对象也只能接收到warning级别以上的level，你可以理解为总开关
 logger.setLevel(logging.INFO)
-
-formatter = logging.Formatter(fmt="%(asctime)s %(filename)s[line:%(lineno)d]%(levelname)s - %(message)s",
+default_formatter = logging.Formatter(fmt="%(asctime)s %(filename)s[line:%(lineno)d]%(levelname)s - %(message)s",
                                 datefmt="%m/%d/%Y %I:%M:%S %p")  # 创建一个格式化对象
 info_file = logging.FileHandler('./log/chatbot/info.log')
 debug_file = logging.FileHandler('./log/chatbot/debug.log')
 debug_file.setLevel(logging.DEBUG)
+info_file.setFormatter(default_formatter)
+debug_file.setFormatter(default_formatter)
 console = logging.StreamHandler() # 配置日志输出到控制台
 console.setLevel(logging.INFO) # 设置输出到控制台的最低日志级别
-console.setFormatter(formatter)  # 设置格式
+console.setFormatter(default_formatter)  # 设置格式
 logger.addHandler(console)
 logger.addHandler(info_file)
 logger.addHandler(debug_file)
+# 聊天记录的logger
+history_logger = logging.getLogger(__name__+'.history')
+history_logger.setLevel(logging.DEBUG)
+history_formatter = logging.Formatter(fmt="%(asctitome)s - %(message)s")
+history_handler = logging.FileHandler('./log/chatbot/history.log')
+history_handler.setFormatter(history_formatter)
+history_logger.addHandler(history_handler)
 class ChatBot:
     # 预先的定义好音频参数和录音时间
     _AUDIO_DIR = './audio.pcm'
@@ -40,9 +48,9 @@ class ChatBot:
 
     def run(self):
         while True:
+            #TODO 这里要加个嘟？或者按钮触发5秒录音
             # 录音
-            logger.info('开始录音')
-            #TODO 这里要加个嘟？
+            logger.debug('开始录音')
             audio_buffer = self.record_audio()
             logger.info('录音结束')
             # 读取
@@ -50,14 +58,14 @@ class ChatBot:
             # 识别
             try:
                 msg = self.recognize_audio(audio_buffer)
-                logger.info('Recognize Result:'+msg)
+                history_logger.info('User : '+msg)
             except speech_part.RecognizeError as e:
                 logger.error('Recognize Error',exc_info=True)
                 response = str(e)
             else:
                 # 获取回复
                 response = self.BRAIN.respond(msg)
-                logger.info('Dialogue Result:'+response)
+                history_logger.info('Bot : '+response)
             # 语音合成
             try:
                 response_buff = self.compose_audio(text=response)
