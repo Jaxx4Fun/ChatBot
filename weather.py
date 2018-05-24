@@ -1,11 +1,15 @@
 import requests
+import os
 class WeatherHandler(object):
     def __init__(self, *args, **kwargs):
         self.location = ''
         self.token = 'unGcwcjM4VR7oPEd'
-        with open(r'.\weather.txt',encoding='utf8') as f:
+        pwd = os.path.abspath(os.curdir)
+        os.chdir(os.path.join(pwd,'./weather.txt'))
+        with open(r'./weather.txt',encoding='utf8') as f:
             # 地点:api
             self.api_dict = dict(line.strip().split(' || ')[1::2]for line in f.readlines())
+        os.chdir(pwd)
 
     def get_response(self,location):
         '''
