@@ -30,7 +30,13 @@ history_formatter = logging.Formatter(fmt="%(asctime)s - %(message)s")
 history_handler = logging.FileHandler('./log/chatbot/history.log')
 history_handler.setFormatter(history_formatter)
 history_logger.addHandler(history_handler)
-
+sys.modules[__name__]
+BASE_DIR = getattr(sys.modules[__name__],'__file__',None)
+if BASE_DIR:
+    BASE_DIR = os.path.dirname(BASE_DIR)
+else:
+    BASE_DIR = '/home/pi/ChatBot'
+os.chdir(BASE_DIR)
 class ChatBot:
     # 预先的定义好音频参数和录音时间
     _AUDIO_DIR = './temp/audio.pcm'
