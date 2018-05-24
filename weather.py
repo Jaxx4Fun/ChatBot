@@ -31,7 +31,7 @@ class WeatherHandler(object):
             return None
         rsp = requests.get(url)
         description = rsp.json()['result']['hourly']['description']
-        return description
+        return location+description
 
 
 def main():
