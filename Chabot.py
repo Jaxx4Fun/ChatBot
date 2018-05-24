@@ -33,13 +33,13 @@ history_logger.addHandler(history_handler)
 
 class ChatBot:
     # 预先的定义好音频参数和录音时间
-    _AUDIO_DIR = './audio.pcm'
+    _AUDIO_DIR = './temp/audio.pcm'
     _AUDIO_RATE = 44100
     _AUDIO_CHANNEL = 1
-    _AUDIO16_DIR = './audio16.pcm'
+    _AUDIO16_DIR = './temp/audio16.pcm'
     _AUDIO16_CHANNEL = 1
     _AUDIO16_RATE = 16000
-    _RESPONSE_DIR = './rsp.mp3'
+    _RESPONSE_DIR = './temp/rsp.mp3'
     _DEFAULT_RECORD_TIME = 5
     _DINGDONG_DIR = './dingdong.mp3'
 
