@@ -13,7 +13,7 @@ class Dialogue(object):
             locale.setlocale(locale.LC_CTYPE,'chinese')
 
         self._brain = aiml.Kernel()
-        pwd = os.curdir
+        pwd = os.path.abspath(os.curdir)
         os.chdir(os.path.join(pwd,aiml_data_dir))
         self._brain.learn("std-startup.xml")
         self._brain.respond('load aiml b')
@@ -49,7 +49,7 @@ class Dialogue(object):
         }
         delta = timedelta(days= interval_map.get(interval,0))
         result = (datetime.now()+delta).strftime("%Y年%m月%d日")
-        return result
+        return interval+result
 
 
     def respond(self,sentence):

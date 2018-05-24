@@ -30,6 +30,7 @@ history_formatter = logging.Formatter(fmt="%(asctime)s - %(message)s")
 history_handler = logging.FileHandler('./log/chatbot/history.log')
 history_handler.setFormatter(history_formatter)
 history_logger.addHandler(history_handler)
+
 class ChatBot:
     # 预先的定义好音频参数和录音时间
     _AUDIO_DIR = './audio.pcm'
@@ -53,7 +54,7 @@ class ChatBot:
             # 录音
             logger.debug('开始录音')
             # 叮咚提示音
-            os.system(self._DINGDONG_DIR)
+            self.play_audio(self._DINGDONG_DIR)
             audio_buffer = self.record_audio()
             logger.info('录音结束')
             # 读取
