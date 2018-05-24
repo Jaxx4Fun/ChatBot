@@ -33,7 +33,7 @@ history_logger.addHandler(history_handler)
 sys.modules[__name__]
 BASE_DIR = getattr(sys.modules[__name__],'__file__',None)
 if BASE_DIR:
-    BASE_DIR = os.path.dirname(BASE_DIR)
+    BASE_DIR = os.path.dirname(os.path.abspath(BASE_DIR))
 else:
     BASE_DIR = '/home/pi/ChatBot'
 os.chdir(BASE_DIR)
