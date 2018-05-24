@@ -40,6 +40,7 @@ class ChatBot:
     _AUDIO16_RATE = 16000
     _RESPONSE_DIR = './rsp.mp3'
     _DEFAULT_RECORD_TIME = 5
+    _DINGDONG_DIR = './dingdong.mp3'
 
     def __init__(self, *args, **kwargs):
         logger.info('ChatBot初始化')
@@ -51,6 +52,8 @@ class ChatBot:
             #TODO 这里要加个嘟？或者按钮触发5秒录音
             # 录音
             logger.debug('开始录音')
+            # 叮咚提示音
+            os.system(self._DINGDONG_DIR)
             audio_buffer = self.record_audio()
             logger.info('录音结束')
             # 读取
