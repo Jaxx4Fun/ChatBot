@@ -27,6 +27,8 @@
                 <li value="文艺啊"><srai>夸奖<star/></srai></li>
                 <li value="牛逼啊"><srai>夸奖<star/></srai></li>
                 <li value="强啊"><srai>夸奖<star/></srai></li>
+                <li value="笨">你几个月大的时候还不会说话呢</li>
+                <li value="笨啊">你几个月大的时候还不会说话呢</li>
                 <li> 你才<get name="star" />！你们全家都<get name="star" />!</li>
             </condition>
             </template>
@@ -70,6 +72,36 @@
                 </condition>
             </template>
     </category>
+    <category>
+            <pattern>你觉得*怎么样</pattern>
+            <template>
+                <think><set name="star"><star index="1"/></set></think>
+                <condition name="star">
+                    <li value="华为手机">华为手机不如我聪明</li>
+                    <li value="小米">一家做期货的互联网公司</li>
+                    <li value="苹果手机">除了贵一点，其他还可以</li>
+                    <li>我对<star/>没有了解过</li>
 
+                </condition>
+            </template>
+    </category>
 
+    <category>
+        <pattern>为什么</pattern>
+        <template>
+            哪有这么多为什么
+        </template>
+    </category>
+    <category>
+        <pattern>为什么*</pattern>
+        <template>
+            <srai>为什么</srai>
+        </template>
+    </category>
+    <category>
+        <pattern>*为什么*</pattern>
+        <template>
+            <srai>为什么</srai>
+        </template>
+    </category>
 </aiml>

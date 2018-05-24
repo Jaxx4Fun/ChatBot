@@ -42,7 +42,7 @@
         <template>
                 <condition name="username" >
                 <li value="">请问你是哪位</li>
-                <li>你好<get name='username'></get></li>
+                <li>你好，<get name='username'></get></li>
                 </condition>
         </template>
     </category>
@@ -59,10 +59,48 @@
         <template>
         <condition name="username">
             <li value=""><set name='username'><star/></set>初次见面请多指教</li>
+            <li>你不是叫<get name='username'></get>吗</li>
         </condition>
         <think>
         </think>
         </template>
+    </category>
+
+    <category>
+        <pattern>我是*</pattern>
+        <that>请问你是哪位</that>
+        <template><srai>我叫<star/></srai></template>
+    </category>
+    <category>
+        <that>请问你是哪位</that>
+        <pattern>叫我*就*</pattern>
+        <template><srai>我叫<star/></srai></template>
+    </category>
+    <category>
+        <pattern>叫我*吧</pattern>
+        <template><srai>我叫<star/></srai></template>
+    </category>
+
+    <category>
+            <pattern>你*什么</pattern>
+            <template>
+                <think><set name="star"><star index="1"/></set></think>
+                <condition name="star">
+                    <li value="能"><srai>能力集</srai></li>
+                    <li value="会"><srai>能力集</srai></li>
+                    <li value="干"><srai>能力集</srai></li>
+                    <li value="会干"><srai>能力集</srai></li>
+                    <li value="能干"><srai>能力集</srai></li>
+                    <li value="叫"><srai>你叫什么名字</srai></li>
+
+                </condition>
+            </template>
+    </category>
+    <category>
+            <pattern>能力集</pattern>
+            <template>
+                吃饭睡觉打豆豆，还会播个天气预报
+            </template>
     </category>
 
 
