@@ -4,9 +4,12 @@ from datetime import datetime
 import locale
 
 import os
+from tuling import Tuling
 from weather import WeatherHandler
 class Dialogue(object):
-    def __init__(self, aiml_data_dir = './aiml_data'):
+    def __init__(self, aiml_data_dir = 'aiml_data'):
+        self._WEATHER_HANDLER = WeatherHandler()
+        self._TULING = Tuling()
         try:
             datetime.now().strftime('%Y年%m月%d日')
         except UnicodeEncodeError:
@@ -28,7 +31,7 @@ class Dialogue(object):
             location = args[0]
         except:
             location = '杭州'
-        wh = WeatherHandler()
+        wh = self._WEATHER_HANDLER
         return wh.get_response(location)
     def _get_time(self,*args):
         now = datetime.now()
@@ -67,8 +70,10 @@ class Dialogue(object):
                 print(e)
                 pass
             final_rsp = rsp
-        else:
-            final_rsp = aiml_rsp
+        elif aiml_rsp == '':
+            final_rsp = self._TULING.respond(sentence)
+        if final_rsp == '暂不支持':
+            final_rsp = self._TULING.respond(sentence)
         final_rsp = final_rsp or '我还小，你说的我还不懂'
         return final_rsp
 

@@ -164,13 +164,6 @@ class ChatBot:
         buffer = b''.join(frames)
         return buffer
 
-        # wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-        # wf.setnchannels(CHANNELS)
-        # wf.setsampwidth(p.get_sample_size(FORMAT))
-        # wf.setframerate(RATE)
-        # wf.writeframes(b''.join(frames))
-        # wf.close()
-
 
 if __name__ == '__main__':
     cb = ChatBot()
