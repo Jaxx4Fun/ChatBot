@@ -21,7 +21,7 @@ class PatternMgr:
     _THAT       = 3
     _TOPIC      = 4
     _BOT_NAME   = 5
-    
+
     def __init__(self):
         self._root = {}
         self._templateCount = 0
@@ -74,8 +74,10 @@ class PatternMgr:
 
         r = [
             # 标准CJK文字
-            (0x3400, 0x4DB5), (0x4E00, 0x9FA5), (0x9FA6, 0x9FBB), (0xF900, 0xFA2D),
-            (0xFA30, 0xFA6A), (0xFA70, 0xFAD9), (0x20000, 0x2A6D6), (0x2F800, 0x2FA1D),
+            (0x3400, 0x4DB5), (0x4E00, 0x9FA5),
+             (0x9FA6, 0x9FBB), (0xF900, 0xFA2D),
+            (0xFA30, 0xFA6A), (0xFA70, 0xFAD9),
+            (0x20000, 0x2A6D6), (0x2F800, 0x2FA1D),
             # 全角ASCII、全角中英文标点、半宽片假名、半宽平假名、半宽韩文字母
             (0xFF00, 0xFFEF),
             # CJK部首补充
@@ -169,7 +171,7 @@ class PatternMgr:
 
         # add the template.
         if self._TEMPLATE not in node:
-            self._templateCount += 1    
+            self._templateCount += 1
         node[self._TEMPLATE] = template
 
     def match(self, pattern, that, topic):
@@ -192,7 +194,7 @@ class PatternMgr:
         if topic.strip() == u"": topic = u"ULTRABOGUSDUMMYTOPIC" # 'topic' must never be empty
         topicInput = topic.upper()
         topicInput = re.sub(self._puncStripRE, " ", topicInput)
-        
+
         # Pass the input off to the recursive call
         input_ = self.chineseFormat(input_)
         thatInput = self.chineseFormat(thatInput)
@@ -245,7 +247,7 @@ class PatternMgr:
         else:
             # unknown value
             raise ValueError( "starType must be in ['star', 'thatstar', 'topicstar']" )
-        
+
         # compare the input string to the matched pattern, word by word.
         # At the end of this loop, if foundTheRightStar is true, start and
         # end will contain the start and end indices (in "words") of
@@ -286,7 +288,7 @@ class PatternMgr:
                     break
             # Move to the next element of the pattern.
             j += 1
-            
+
         # extract the star words from the original, unmutilated input.
         if foundTheRightStar:
             #print( ' '.join(pattern.split()[start:end+1]) )
@@ -300,7 +302,7 @@ class PatternMgr:
         at the root and leading to the matching pattern, and tem is the
         matched template.
 
-        """ 
+        """
         # base-case: if the word list is empty, return the current node's
         # template.
         if len(words) == 0:
@@ -336,7 +338,7 @@ class PatternMgr:
 
         first = words[0]
         suffix = words[1:]
-        
+
         # Check underscore.
         # Note: this is causing problems in the standard AIML set, and is
         # currently disabled.
@@ -363,7 +365,7 @@ class PatternMgr:
             if template is not None:
                 newPattern = [first] + pattern
                 return (newPattern, template)
-        
+
         # check star
         if self._STAR in root:
             # Must include the case where suf is [] in order to handle the case
@@ -376,4 +378,4 @@ class PatternMgr:
                     return (newPattern, template)
 
         # No matches were found.
-        return (None, None)         
+        return (None, None)

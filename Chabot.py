@@ -5,6 +5,10 @@ import sys
 import speech_part
 import logging
 import new_dialogue
+try:
+    import RPi.GPIO as GPIO
+except:
+    pass
 #初始化logger
 logger = logging.getLogger(__name__)
 # 配置日志级别，如果不显示配置，默认为Warning，表示所有warning级别已下的其他level直接被省略，
@@ -53,10 +57,19 @@ class ChatBot:
         logger.info('ChatBot初始化')
         self.CLIENT =speech_part.SpeechClient()
         self.BRAIN = new_dialogue.Dialogue()
+        logger.info('树莓派按钮初始化')
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(17,GPIO.IN)
+
 
     def run(self):
         while True:
             #TODO 这里要加个嘟？或者按钮触发5秒录音
+            try:
+                while not GPIO.input(17):
+                    pass
+            except:
+                pass
             # 录音
             logger.debug('开始录音')
             # 叮咚提示音
@@ -96,12 +109,16 @@ class ChatBot:
     def record_audio(self,time=_DEFAULT_RECORD_TIME):
         buffer = b''
         if 'posix' in os.name:
-            os.system ('arecord -r {rate} -f s16_le -c {channel} -t raw -D "plughw:1,0" -d {time} {path}'.format(path=(self._AUDIO_DIR+'.origin'),
+            os.system ('arecord -r {rate} -f s16_le -c {channel}\
+             -t raw -D "plughw:1,0" -d {time} \
+             {path}'.format(path=(self._AUDIO_DIR+'.origin'),
                 time=time,
                 rate=self._AUDIO_RATE,
                 channel=self._AUDIO_CHANNEL))
             # 录音格式转换
-            os.system('ffmpeg -y -f s16le -ac {src_channel} -ar {src_rate} -i {src_path} -acodec pcm_s16le -f s16le -ac {dst_channel} -ar {dst_rate} {dst_path}'.format(
+            os.system('ffmpeg -y -f s16le -ac {src_channel} \
+            -ar {src_rate} -i {src_path} -acodec pcm_s16le -f s16le\
+             -ac {dst_channel} -ar {dst_rate} {dst_path}'.format(
                 src_path=(self._AUDIO_DIR+'.origin'),
                 src_rate=self._AUDIO_RATE,
                 src_channel = self._AUDIO_CHANNEL,
