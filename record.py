@@ -45,6 +45,7 @@ def try_rec():
 
 def main():
     record()
+    try_rec()
 
 if __name__ == '__main__':
     main()
