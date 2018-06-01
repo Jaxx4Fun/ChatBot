@@ -5,6 +5,7 @@ import sys
 import speech_part
 import logging
 import new_dialogue
+from pydub import AudioSegment
 try:
     import RPi.GPIO as GPIO
 except:
@@ -50,13 +51,13 @@ class ChatBot:
     _AUDIO16_CHANNEL = 1
     _AUDIO16_RATE = 16000
     _RESPONSE_DIR = './temp/rsp.mp3'
-    _DEFAULT_RECORD_TIME = 5
+    _DEFAULT_RECORD_TIME = 20
     _DINGDONG_DIR = './dingdong.mp3'
-
     def __init__(self, *args, **kwargs):
         logger.info('ChatBot初始化')
         self.CLIENT =speech_part.SpeechClient()
         self.BRAIN = new_dialogue.Dialogue()
+        self.record_time = 0
         logger.info('树莓派按钮初始化')
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(17,GPIO.IN)
@@ -109,24 +110,19 @@ class ChatBot:
     def record_audio(self,time=_DEFAULT_RECORD_TIME):
         buffer = b''
         if 'posix' in os.name:
-            os.system ('arecord -r {rate} -f s16_le -c {channel}\
-             -t raw -D "plughw:1,0" -d {time} \
-             {path}'.format(path=(self._AUDIO_DIR+'.origin'),
-                time=time,
-                rate=self._AUDIO_RATE,
-                channel=self._AUDIO_CHANNEL))
-            # 录音格式转换
-            os.system('ffmpeg -y -f s16le -ac {src_channel} \
-            -ar {src_rate} -i {src_path} -acodec pcm_s16le -f s16le\
-             -ac {dst_channel} -ar {dst_rate} {dst_path}'.format(
-                src_path=(self._AUDIO_DIR+'.origin'),
-                src_rate=self._AUDIO_RATE,
-                src_channel = self._AUDIO_CHANNEL,
-                dst_path=self._AUDIO16_DIR,
-                dst_rate=self._AUDIO16_RATE,
-                dst_channel=self._AUDIO16_CHANNEL))
-            with open(self._AUDIO16_DIR,'rb') as f:
-                buffer =  f.read()
+            for i in range(time):
+                # 最长是time秒，如果不按键，就直接退出。
+                if not GPIO.input(17):
+                    self.record_time = i
+                    break
+                cmd = 'arecord -r 44100 -f s16_le -c 1 -t raw -D "plughw:1,0" -d 1 {name}'.format(self._AUDIO_DIR+str(i))
+                os.system('cmd')
+            soundlist = [AudioSegment.from_file(self._AUDIO16_DIR+str(i),frame_rate=44100,channels=1,sample_width=2) for i in range(self.record_time)]
+            playlist = AudioSegment.empty()
+            for sound in soundlist:
+                playlist += sound
+            playlist.set_frame_rate(16000)
+            return playlist.raw_data
         else:
             buffer = self.record_audio_by_pa()
         return buffer
