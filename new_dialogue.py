@@ -52,25 +52,33 @@ class Dialogue(object):
         }
         delta = timedelta(days= interval_map.get(interval,0))
         result = (datetime.now()+delta).strftime("%Y年%m月%d日")
-        return interval+result
+        return interval+'是'+result
 
 
     def respond(self,sentence):
-        aiml_rsp = self._brain.respond(sentence)
-        if aiml_rsp[:4] == '实时查询':
-            params = aiml_rsp.split()
+        # 输入为空，直接返回
+        if not sentence:
+            return '说点什么吧'
+        # AIML规则匹配获取回复
+        final_rsp = self._brain.respond(sentence)
+        # 特殊指令
+        if final_rsp[:4] == '实时查询':
+            params = final_rsp.split()
+            # 获取任务名
             name = params[1]
             rsp = ''
+            # 获取对应处理该任务的函数对象
             if name in self._task_handler:
                 task_handler = self._task_handler[name]
             try:
+                # 获取函数参数
                 args = params[2:]
+                # 执行函数
                 rsp = task_handler(*args)
             except Exception as e:
-                print(e)
                 pass
             final_rsp = rsp
-        elif aiml_rsp == '':
+        elif final_rsp == '':
             final_rsp = self._TULING.respond(sentence)
         if final_rsp == '暂不支持':
             final_rsp = self._TULING.respond(sentence)
