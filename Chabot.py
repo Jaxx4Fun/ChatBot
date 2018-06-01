@@ -115,14 +115,14 @@ class ChatBot:
                 if not GPIO.input(17):
                     self.record_time = i
                     break
-                cmd = 'arecord -r 44100 -f s16_le -c 1 -t raw -D "plughw:1,0" -d 1 {name}'.format(self._AUDIO_DIR+str(i))
-                os.system('cmd')
-            soundlist = [AudioSegment.from_file(self._AUDIO16_DIR+str(i),frame_rate=44100,channels=1,sample_width=2) for i in range(self.record_time)]
-            playlist = AudioSegment.empty()
+                cmd = 'arecord -r 44100 -f s16_le -c 1 -t raw -D "plughw:1,0" -d 1 {name}'.format(name=self._AUDIO_DIR+str(i))
+                os.system(cmd)
+            soundlist = [AudioSegment.from_file(self._AUDIO_DIR+str(i),frame_rate=44100,channels=1,sample_width=2) for i in range(self.record_time)]
+            playlist = b''
             for sound in soundlist:
-                playlist += sound
-            playlist.set_frame_rate(16000)
-            return playlist.raw_data
+                sound.set_frame_rate(16000)
+                playlist += sound.raw_data
+            return playlist
         else:
             buffer = self.record_audio_by_pa()
         return buffer
