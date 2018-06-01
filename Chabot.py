@@ -77,6 +77,9 @@ class ChatBot:
             self.play_audio(self._DINGDONG_DIR)
             audio_buffer = self.record_audio()
             logger.info('录音结束')
+            # 没有录音，重新开始录音
+            if audio_buffer == b'':
+                continue
             # 读取
             # audio_buffer = open('./audio16.pcm','rb').read()
             # 识别
@@ -110,17 +113,26 @@ class ChatBot:
     def record_audio(self,time=_DEFAULT_RECORD_TIME):
         buffer = b''
         if 'posix' in os.name:
+            # 分片录音
             for i in range(time):
                 # 最长是time秒，如果不按键，就直接退出。
                 if not GPIO.input(17):
                     self.record_time = i
                     break
-                cmd = 'arecord -r 44100 -f s16_le -c 1 -t raw -D "plughw:1,0" -d 1 {name}'.format(name=self._AUDIO_DIR+str(i))
+                cmd = 'arecord -r 44100 -f s16_le -c 1\
+                -t raw -D "plughw:1,0"\
+                 -d 1 {name}'.format(name=self._AUDIO_DIR+str(i))
                 os.system(cmd)
-            soundlist = [AudioSegment.from_file(self._AUDIO_DIR+str(i),format='raw',frame_rate=44100,channels=1,sample_width=2).set_frame_rate(16000) for i in range(self.record_time)]
+            soundlist = [
+                AudioSegment.from_file(
+                    self._AUDIO_DIR+str(i),
+                    format='raw',
+                    frame_rate=44100,
+                    channels=1,
+                sample_width=2).set_frame_rate(16000) for i in range(self.record_time)]
             playlist = AudioSegment.empty()
+            # 拼接录音文件
             for sound in soundlist:
-
                 playlist += sound
             return playlist.raw_data
         else:
