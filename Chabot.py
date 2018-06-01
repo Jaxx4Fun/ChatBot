@@ -79,6 +79,7 @@ class ChatBot:
             logger.info('录音结束')
             # 没有录音，重新开始录音
             if audio_buffer == b'':
+                logger.info('录音为空')
                 continue
             # 读取
             # audio_buffer = open('./audio16.pcm','rb').read()
