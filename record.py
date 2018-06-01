@@ -1,38 +1,39 @@
-import pyaudio
-import wave
+import os
+import time
+import speech_part
+try:
+    import RPi.GPIO as GPIO
+except :
+    pass
+try:
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(17,GPIO.IN)
+except:
+    pass
+def cost_time(func):
+    def wrapper(*args,**kw):
+        s = time.time()
+        new = func(*args,**kw)
+        print("%.2f"%(time.time()-s))
+        return new
+    return wrapper
+@cost_time
+def a():
+    print(1)
+@cost_time
+def record():
+    for i in range(20):
+        # 停止录音
+        if not GPIO.input(17):
+            break
+        cmd = 'arecord -r 44100 -f s16_le -c 1\
+            -t raw -D "plughw:1,0" -d 1 \
+            temp/{name}'.format(name=('a'+str(i)))
+        os.system(cmd)
 
-CHUNK = 1024
-FORMAT = pyaudio.paInt16
-CHANNELS = 2
-RATE = 44100
-RECORD_SECONDS = 5
-WAVE_OUTPUT_FILENAME = "output.wav"
 
-p = pyaudio.PyAudio()
+def main():
+    record()
 
-stream = p.open(format=FORMAT,
-                channels=CHANNELS,
-                rate=RATE,
-                input=True,
-                frames_per_buffer=CHUNK)
-
-print("* recording")
-
-frames = []
-
-for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
-    data = stream.read(CHUNK)
-    frames.append(data)
-
-print("* done recording")
-
-stream.stop_stream()
-stream.close()
-p.terminate()
-
-wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-wf.setnchannels(CHANNELS)
-wf.setsampwidth(p.get_sample_size(FORMAT))
-wf.setframerate(RATE)
-wf.writeframes(b''.join(frames))
-wf.close()
+if __name__ == '__main__':
+    main()
