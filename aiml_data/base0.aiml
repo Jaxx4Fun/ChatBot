@@ -36,7 +36,4 @@
         <pattern>*几点</pattern>
         <template><srai>时间</srai></template>
     </category>
-
-
-
 </aiml>

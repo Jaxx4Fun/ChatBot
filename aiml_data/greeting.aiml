@@ -7,6 +7,14 @@
         <pattern>新年快乐</pattern>
         <template>恭喜发财</template>
     </category>
+
+    <!-- 年龄 -->
+    <category>
+        <pattern>新年快乐</pattern>
+        <template>恭喜发财</template>
+    </category>
+
+    <!-- 名字 -->
     <category>
         <pattern>你叫*</pattern>
         <template>我叫<get name="botname"></get></template>
@@ -17,7 +25,7 @@
         <template><srai>你叫什么名字</srai></template>
     </category>
 
-
+    <!-- 再见 -->
     <category>
         <pattern>再见</pattern>
         <template>网络一线牵，相逢即是缘，再见</template>
@@ -35,8 +43,7 @@
         </template>
     </category>
 
-
-
+    <!-- 问候 -->
     <category>
         <pattern>你好</pattern>
         <template>
@@ -66,14 +73,15 @@
         </template>
     </category>
 
+    <!-- 用户介绍 -->
     <category>
         <pattern>我是*</pattern>
         <that>请问你是哪位</that>
         <template><srai>我叫<star/></srai></template>
     </category>
     <category>
-        <that>请问你是哪位</that>
         <pattern>叫我*就*</pattern>
+        <that>请问你是哪位</that>
         <template><srai>我叫<star/></srai></template>
     </category>
     <category>
@@ -81,6 +89,27 @@
         <template><srai>我叫<star/></srai></template>
     </category>
 
+    <!-- 多大 -->
+    <category>
+        <pattern>你多大</pattern>
+        <template>
+        <random>
+        <li>我已经<get name='botage'></get>了</li>
+        <li>我才刚会说话，你觉得我多大了</li>
+
+        </random>
+        </template>
+    </category>
+    <category>
+        <pattern>你多大了</pattern>
+        <template><srai>你多大</srai></template>
+    </category>
+    <category>
+        <pattern>你几岁*</pattern>
+        <template><srai>你多大</srai></template>
+    </category>
+
+    <!-- 能力 -->
     <category>
             <pattern>你*什么</pattern>
             <template>
@@ -91,6 +120,8 @@
                     <li value="干"><srai>能力集</srai></li>
                     <li value="会干"><srai>能力集</srai></li>
                     <li value="能干"><srai>能力集</srai></li>
+                    <li value="会做"><srai>能力集</srai></li>
+                    <li value="能做"><srai>能力集</srai></li>
                     <li value="叫"><srai>你叫什么名字</srai></li>
 
                 </condition>
@@ -102,8 +133,5 @@
                 吃饭睡觉打豆豆，还会播个天气预报
             </template>
     </category>
-
-
-
 
 </aiml>

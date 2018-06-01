@@ -22,6 +22,7 @@
             <think>
                 <set name='botname'>阿六</set>
                 <set name='botgender'>男</set>
+                <set name='botage'>一个月</set>
             </think>
         </template>
 

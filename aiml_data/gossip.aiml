@@ -6,6 +6,12 @@
         原来我很<star/>过奖过奖
         </template>
     </category>
+
+    <category>
+            <pattern>你真*</pattern>
+            <template><srai>你好<star/></srai></template>
+    </category>
+
     <category>
             <pattern>你好*</pattern>
             <template>
@@ -17,7 +23,7 @@
                 <li value="萌啊"><srai>调戏<star/></srai></li>
                 <li value="聪明"><srai>夸奖<star/></srai></li>
                 <li value="善良"><srai>夸奖<star/></srai></li>
-                <li value="历害"><srai>夸奖<star/></srai></li>
+                <li value="厉害"><srai>夸奖<star/></srai></li>
                 <li value="文艺"><srai>夸奖<star/></srai></li>
                 <li value="牛逼"><srai>夸奖<star/></srai></li>
                 <li value="强"><srai>夸奖<star/></srai></li>
@@ -43,6 +49,13 @@
             <pattern>消极*</pattern>
             <template>负面情绪总是难免的，注意调节</template>
     </category>
+
+    <category>
+            <pattern>我真*</pattern>
+            <template><srai>我好<star/></srai></template>
+    </category>
+
+
     <category>
             <pattern>我好*</pattern>
             <template>
