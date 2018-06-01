@@ -117,12 +117,12 @@ class ChatBot:
                     break
                 cmd = 'arecord -r 44100 -f s16_le -c 1 -t raw -D "plughw:1,0" -d 1 {name}'.format(name=self._AUDIO_DIR+str(i))
                 os.system(cmd)
-            soundlist = [AudioSegment.from_file(self._AUDIO_DIR+str(i),format='raw',frame_rate=44100,channels=1,sample_width=2) for i in range(self.record_time)]
-            playlist = b''
+            soundlist = [AudioSegment.from_file(self._AUDIO_DIR+str(i),format='raw',frame_rate=44100,channels=1,sample_width=2).set_frame_rate(16000) for i in range(self.record_time)]
+            playlist = AudioSegment.empty()
             for sound in soundlist:
-                sound.set_frame_rate(16000)
-                playlist += sound.raw_data
-            return playlist
+
+                playlist += sound
+            return playlist.raw_data
         else:
             buffer = self.record_audio_by_pa()
         return buffer
