@@ -34,6 +34,8 @@ class SpeechClient(object):
             msg = msg.replace('。','')
             msg = msg.replace('！','')
             msg = msg.replace('、','')
+            msg = msg.replace('？','')
+            msg = msg.replace('?','')
             return msg
         else:
             if result['err_msg'] == 'speech quality error.':
