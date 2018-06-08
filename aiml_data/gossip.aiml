@@ -117,4 +117,15 @@
             <srai>为什么</srai>
         </template>
     </category>
+
+    <category>
+        <pattern>讲个笑话</pattern>
+        <template>
+            <random>
+                <li>公共汽车上老太太怕坐过站逢站必问．汽车到一站她就一个劲地用雨伞捅司机：＂这是展览中心吗？＂＂不是，这是排骨！＂</li>
+                <li>某男向某女求爱，用二胡拉了一曲＜二泉映月＞．事后女的说：＂二胡拉的不咋地，人长的倒是和瞎子阿炳挺像．＂</li>
+            </random>
+        </template>
+    </category>
+
 </aiml>

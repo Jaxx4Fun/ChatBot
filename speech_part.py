@@ -39,7 +39,7 @@ class SpeechClient(object):
             if result['err_msg'] == 'speech quality error.':
                 raise RecognizeError('我没听清楚，再说一次好吗')
             else:
-                raise RecognizeError(result['err_msg'])
+                raise RecognizeError(result)
 
 
     def speech_compose(self,response='测试数据：你好猪头肉'):
