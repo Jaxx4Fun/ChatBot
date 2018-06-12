@@ -1,5 +1,4 @@
 import pyaudio
-import wave
 import os
 import sys
 import speech_part

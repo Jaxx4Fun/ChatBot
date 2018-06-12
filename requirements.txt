@@ -1,0 +1,8 @@
+jieba==0.39
+PyAudio==0.2.11
+pydub==0.20.0
+aiml==0.9.1
+requests==2.18.4
+aip==1.0.0.5
+beautifulsoup4==4.6.0
+constants==0.6.0
